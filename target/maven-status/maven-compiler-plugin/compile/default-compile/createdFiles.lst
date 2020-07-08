@@ -1,0 +1,16 @@
+br\com\pitang\desafio\sefaz\model\Usuario.class
+br\com\pitang\desafio\sefaz\service\MemberRegistration.class
+br\com\pitang\desafio\sefaz\util\TelefoneTipo.class
+br\com\pitang\desafio\sefaz\controller\MemberController.class
+br\com\pitang\desafio\sefaz\model\Member.class
+br\com\pitang\desafio\sefaz\exceptions\NaoEncontradoException.class
+br\com\pitang\desafio\sefaz\model\Telefone.class
+br\com\pitang\desafio\sefaz\rest\JaxRsActivator.class
+br\com\pitang\desafio\sefaz\data\UsuarioRepository.class
+br\com\pitang\desafio\sefaz\model\Telefone_.class
+br\com\pitang\desafio\sefaz\util\Resources.class
+br\com\pitang\desafio\sefaz\data\MemberRepository.class
+br\com\pitang\desafio\sefaz\model\Member_.class
+br\com\pitang\desafio\sefaz\model\Usuario_.class
+br\com\pitang\desafio\sefaz\data\MemberListProducer.class
+br\com\pitang\desafio\sefaz\rest\MemberResourceRESTService.class
