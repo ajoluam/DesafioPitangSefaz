@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<link rel="stylesheet"
+		href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css"
+		type="text/css" media="all" />
+	<link href="resources/css/style.css" rel="stylesheet" />
+
+	<title>Pitang Desafio Sefaz</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+</h:head>
+
+<h:body>
+
+	<!--Primeiro Painel - Logo da Pitang  -->
+	<p:panelGrid id="titulo" columns="3" class="center" layout="grid">
+		<h:column></h:column>
+
+		<h:column>
+			<p>
+				<img src="resources/gfx/logo__pitang.png" height="80"
+					class="d-inline-block align-top" alt="" />
+			</p>
+			<h1>Desafio Pitang Sefaz</h1>
+
+		</h:column>
+
+		<h:column></h:column>
+	</p:panelGrid>
+
+
+	<!--  -->
+	<p:panelGrid id="login" columns="3" layout="grid" class="center">
+		<h:column>
+		</h:column>
+		<h:column>
+			<h1>Clique na imagem abaixo par efetuar seu login</h1>
+			<h:form>
+				<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();"
+					title="Click para Login">
+					<p:graphicImage name="/gfx/cardsPitang.png" height="80" />
+				</h:outputLink>
+
+				<p:growl id="growl" sticky="true" showDetail="true" life="800" />
+
+				<p:dialog header="Preencha seus dados para Login" widgetVar="dlg"
+					resizable="false" draggable="false">
+					<h:panelGrid columns="2" cellpadding="5">
+
+						<h:outputLabel for="email" value="Email:" />
+						<p:inputText id="email" value="#{novoUsuario.email}" 
+							required="true" label="email" />
+
+						<h:outputLabel for="senha" value="Senha:" />
+						<p:password id="senha" value="#{novoUsuario.senha}"
+							required="true" label="senha" />
+
+						<f:facet name="footer">
+							<p:commandButton value="Login" update="growl"
+								action="#{usuarioController.validar}" 
+								styleClass="register" />
+							
+						</f:facet>
+						
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		</h:column>
+		<h:column>
+		</h:column>
+
+	</p:panelGrid>
+
+
+
+
+</h:body>
+
+
+
+
+
+</html>

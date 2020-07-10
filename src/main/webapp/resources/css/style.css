@@ -1,0 +1,22 @@
+h1{
+	color:black;
+	font-size:  14px;
+	text-align: center;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	
+}
+
+
+
+
+.center{
+	text-align: center;
+	padding-top:15px;
+	
+}
+
+.ui-g {
+    background-color:white;
+    text-align: center;
+    border: 15px solid black;
+}

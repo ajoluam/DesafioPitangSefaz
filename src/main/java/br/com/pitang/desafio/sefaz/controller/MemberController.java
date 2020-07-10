@@ -27,10 +27,6 @@ import javax.inject.Named;
 import br.com.pitang.desafio.sefaz.model.Member;
 import br.com.pitang.desafio.sefaz.service.MemberRegistration;
 
-// The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
-// EL name
-// Read more about the @Model stereotype in this FAQ:
-// http://www.cdi-spec.org/faq/#accordion6
 @Model
 public class MemberController {
 

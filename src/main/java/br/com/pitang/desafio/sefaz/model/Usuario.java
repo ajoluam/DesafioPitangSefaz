@@ -1,7 +1,6 @@
 package br.com.pitang.desafio.sefaz.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -56,6 +55,8 @@ public class Usuario implements Serializable{
 
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonIgnore
-	private List<Telefone> telefones = new ArrayList<>();	
+	private List<Telefone> telefones = null;	
 
+	
+	
 }

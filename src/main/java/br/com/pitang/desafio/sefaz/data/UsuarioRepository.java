@@ -1,10 +1,12 @@
 package br.com.pitang.desafio.sefaz.data;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -17,6 +19,9 @@ public class UsuarioRepository {
 
 	@Inject
 	private EntityManager em;
+	
+	@Inject
+	private Logger log;
 
 	public boolean validacaoUsuario(final String email, final String senha) {
 		Usuario usuario = this.findByEmail(email);
@@ -29,13 +34,21 @@ public class UsuarioRepository {
 		CriteriaQuery<Usuario> criteria = cb.createQuery(Usuario.class);
 		Root<Usuario> usuario = criteria.from(Usuario.class);
 		criteria.select(usuario).where(cb.equal(usuario.get("email"), email));
-		Usuario usuarioDB = em.createQuery(criteria).getSingleResult();
+		Usuario usuarioDB = null;
 
-		if (usuarioDB == null) {
+		try {
+
+			usuarioDB = em.createQuery(criteria).getSingleResult();
+
+		} catch (final NoResultException e) {
+			log.info("Usuario não encontrado no Banco para email:" + email);
 			throw new NaoEncontradoException("Usuario não encontrado no Banco.");
-		} else
-			return usuarioDB;
+		}
+		return usuarioDB;
 	}
+		
+
+		
 
 	public List<Usuario> findAllOrderedByName() {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -43,6 +56,11 @@ public class UsuarioRepository {
 		Root<Usuario> usuario = criteria.from(Usuario.class);
 		criteria.select(usuario).orderBy(cb.asc(usuario.get("nome")));
 		return em.createQuery(criteria).getResultList();
+	}
+	
+	public void excluiUsuario(Usuario usuario) {
+		em.remove(usuario);
+		
 	}
 
 }

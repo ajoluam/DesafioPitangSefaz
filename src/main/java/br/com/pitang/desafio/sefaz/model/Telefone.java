@@ -35,10 +35,10 @@ public class Telefone implements Serializable{
 	private int ddd;
 
 	@Column(length = 12)
-	private String number;
+	private String numero;
 	
 	@Enumerated(EnumType.STRING)
-	private TelefoneTipo iipo;
+	private TelefoneTipo tipo;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuario;

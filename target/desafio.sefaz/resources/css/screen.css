@@ -21,7 +21,7 @@ body {
   background-color: #F1F1F1;
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-size: 0.8em;
-  color:#363636;
+  color:orange;
 }
 
 #container {
@@ -81,7 +81,7 @@ a:hover {
 }
 h1 {
   color:#243446;
-  font-size: 2.25em;
+  font-size: 5.50em;
 }
 h2 {
   font-size: 1em;

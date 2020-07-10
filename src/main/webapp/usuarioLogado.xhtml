@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<link rel="stylesheet"
+		href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css"
+		type="text/css" media="all" />
+	<link href="resources/css/style.css" rel="stylesheet" />
+
+	<title>Pitang Desafio Sefaz - Usuario Logado</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+</h:head>
+
+<h:body>
+
+<h:form>  
+    <p:growl id="messages"/>
+ 
+    <p:menubar>
+        <p:submenu label="Listar Usuarios" icon="pi pi-file">
+           
+            <p:menuitem value="Open" onclick="PF('lst').show();" />
+           
+        </p:submenu>
+ 
+        
+    </p:menubar>
+</h:form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!--Primeiro Painel - Logo da Pitang  -->
+	<p:panelGrid id="titulo" columns="3" class="center" layout="grid">
+		<h:column></h:column>
+
+		<h:column>
+			<p>
+				<img src="resources/gfx/logo__pitang.png" height="80"
+					class="d-inline-block align-top" alt="" />
+			</p>
+			<h1>Desafio Pitang Sefaz</h1>
+
+		</h:column>
+
+		<h:column></h:column>
+	</p:panelGrid>
+
+	<h3>
+		<h:outputText value="#{usuario.nome}" />
+	</h3>
+	<h3>
+		<h:outputText value="#{usuario.email}" />
+	</h3>
+	<h3>
+		<h:outputText value="#{usuario.senha}" />
+	</h3>
+
+
+	<h:form id="TelefonesTabela" style="border:0px">
+		<p:dataTable class="telefonesTbl" id="telefoneList" var="telefone"
+			value="#{usuario.telefones}">
+
+			<f:facet name="header">Relação de livros favoritos</f:facet>
+			<p:column>
+				<p:inputText value="#{telefone.id}" id="telefoneId" type="hidden" />
+				<f:facet style="20%" name="header">DDD</f:facet>
+				<h:outputText value="#{telefone.ddd}" />
+			</p:column>
+
+			<p:column>
+				<f:facet style="40%" name="header">Número</f:facet>
+				<h:outputText value="#{telefone.numero}" />
+			</p:column>
+
+			<p:column>
+				<f:facet style="40%" name="header">Tipo</f:facet>
+				<h:outputText value="#{telefone.tipo.descricao}" />
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+
+<br></br>
+
+	
+	<h:panelGroup rendered="#{empty usuarioList}">
+		<em>No registered members.</em>
+	</h:panelGroup>
+	<p:dataTable var="_usuario" value="#{usuarioList}"
+		rendered="#{not empty usuarioList}" styleClass="simpletablestyle" widgetVar="lst">
+		<f:facet name="header">Relação de Usuários</f:facet>
+		<p:column>
+			<f:facet name="header">Id</f:facet>
+                #{_usuario.id}
+            </p:column>
+		<p:column>
+			<f:facet name="header">Nome</f:facet>
+                #{_usuario.nome}
+            </p:column>
+		<p:column>
+			<f:facet name="header">Email</f:facet>
+                #{_usuario.email}
+            </p:column>
+		
+	</p:dataTable>
+
+
+
+
+
+</h:body>
+</html>
