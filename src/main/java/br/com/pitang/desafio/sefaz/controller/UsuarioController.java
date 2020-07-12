@@ -25,58 +25,60 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.pitang.desafio.sefaz.model.Usuario;
+import br.com.pitang.desafio.sefaz.service.UsuarioLogadoService;
 import br.com.pitang.desafio.sefaz.service.UsuarioLogin;
 
 @Model
 public class UsuarioController {
 
-    @Inject
-    private FacesContext facesContext;
+	@Inject
+	private FacesContext facesContext;
 
-    @Inject
-    private UsuarioLogin usuarioLogin;
+	@Inject
+	private UsuarioLogadoService usuarioLogadoService;
 
-    @Produces
-    @Named
-    private Usuario novoUsuario;
+	@Inject
+	private UsuarioLogin usuarioLogin;
 
-    @PostConstruct
-    public void initNewMember() {
-        novoUsuario = new Usuario();
-    }
+	@Produces
+	@Named
+	private Usuario novoUsuario;
 
-    public String validar() throws Exception {
-        try {
-            usuarioLogin.validar(novoUsuario);
-            return "usuarioLogado?faces-redirect=true";
-        } catch (Exception e) {
-            String errorMessage = getRootErrorMessage(e);
-            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Erro na validação do usuário");
-            facesContext.addMessage(null, m);
-            return errorMessage;
-        }
-    }
+	@PostConstruct
+	public void initNewMember() {
+		novoUsuario = new Usuario();
+	}
 
-    private String getRootErrorMessage(Exception e) {
-        // Default to general error message that registration failed.
-        String errorMessage = "Validação falhou";
-        if (e == null) {
-            // This shouldn't happen, but return the default messages
-            return errorMessage;
-        }
+	public String validar() throws Exception {
+		try {
+			usuarioLogin.validar(novoUsuario);
+			return "usuarioLogado?faces-redirect=true";
+		} catch (Exception e) {
+			String errorMessage = getRootErrorMessage(e);
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage,
+					"Erro na validação do usuário");
+			facesContext.addMessage(null, message);
+			return errorMessage;
+		}
+	}
 
-        // Start with the exception and recurse to find the root cause
-        Throwable t = e;
-        while (t != null) {
-            // Get the message from the Throwable class instance
-            errorMessage = t.getLocalizedMessage();
-            t = t.getCause();
-        }
-        // This is the root cause message
-        return errorMessage;
-    }
+	private String getRootErrorMessage(Exception e) {
+		// Default to general error message that registration failed.
+		String errorMessage = "Validação falhou";
+		if (e == null) {
+			// This shouldn't happen, but return the default messages
+			return errorMessage;
+		}
 
-    public void excluirUsuario(Usuario usuario) {
-    	
-    }
+		// Start with the exception and recurse to find the root cause
+		Throwable t = e;
+		while (t != null) {
+			// Get the message from the Throwable class instance
+			errorMessage = t.getLocalizedMessage();
+			t = t.getCause();
+		}
+		// This is the root cause message
+		return errorMessage;
+	}
+
 }

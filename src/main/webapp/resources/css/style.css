@@ -1,22 +1,31 @@
 h1{
 	color:black;
-	font-size:  14px;
+	font-size:  15px;
 	text-align: center;
 	font-family: "Comic Sans MS", cursive, sans-serif;
 	
 }
 
-
-
+h2{
+	font-family: "Comic Sans MS", cursive, sans-serif;
+}
 
 .center{
 	text-align: center;
 	padding-top:15px;
-	
+		
 }
 
 .ui-g {
     background-color:white;
     text-align: center;
-    border: 15px solid black;
+    border: 7px solid #bf310d;
+}
+
+.ui-widget-header {
+    border: 1px solid #ff8040;
+    background: #bf310d url(images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
+    color: #ffffff;
+    font-weight: lighter;
+    font-family: "Comic Sans MS", cursive, sans-serif;
 }

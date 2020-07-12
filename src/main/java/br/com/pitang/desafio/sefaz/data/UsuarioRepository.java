@@ -8,10 +8,12 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import br.com.pitang.desafio.sefaz.exceptions.NaoEncontradoException;
+import br.com.pitang.desafio.sefaz.exceptions.NaoExcluidoException;
 import br.com.pitang.desafio.sefaz.model.Usuario;
 
 @ApplicationScoped
@@ -19,7 +21,7 @@ public class UsuarioRepository {
 
 	@Inject
 	private EntityManager em;
-	
+
 	@Inject
 	private Logger log;
 
@@ -46,9 +48,6 @@ public class UsuarioRepository {
 		}
 		return usuarioDB;
 	}
-		
-
-		
 
 	public List<Usuario> findAllOrderedByName() {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -57,10 +56,20 @@ public class UsuarioRepository {
 		criteria.select(usuario).orderBy(cb.asc(usuario.get("nome")));
 		return em.createQuery(criteria).getResultList();
 	}
-	
-	public void excluiUsuario(Usuario usuario) {
-		em.remove(usuario);
-		
+
+	public boolean excluiUsuario(Usuario usuario) {
+		try {
+			em.createNativeQuery("DELETE FROM telefone WHERE usuario_id=?").setParameter(1, usuario.getId())
+					.executeUpdate();
+			em.createNativeQuery("DELETE FROM usuario WHERE id=?").setParameter(1, usuario.getId()).executeUpdate();
+			em.flush();
+
+			return true;
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			throw new NaoExcluidoException(e.getMessage());
+		}
+
 	}
 
 }

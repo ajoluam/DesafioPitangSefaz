@@ -20,40 +20,6 @@
 
 <h:body>
 
-<h:form>  
-    <p:growl id="messages"/>
- 
-    <p:menubar>
-        <p:submenu label="Listar Usuarios" icon="pi pi-file">
-           
-            <p:menuitem value="Open" onclick="PF('lst').show();" />
-           
-        </p:submenu>
- 
-        
-    </p:menubar>
-</h:form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	<!--Primeiro Painel - Logo da Pitang  -->
 	<p:panelGrid id="titulo" columns="3" class="center" layout="grid">
 		<h:column></h:column>
@@ -70,64 +36,151 @@
 		<h:column></h:column>
 	</p:panelGrid>
 
-	<h3>
-		<h:outputText value="#{usuario.nome}" />
-	</h3>
-	<h3>
-		<h:outputText value="#{usuario.email}" />
-	</h3>
-	<h3>
-		<h:outputText value="#{usuario.senha}" />
-	</h3>
+	<br></br>
+
+	<h2>Olá, #{usuario.nome}!!!</h2>
 
 
-	<h:form id="TelefonesTabela" style="border:0px">
-		<p:dataTable class="telefonesTbl" id="telefoneList" var="telefone"
-			value="#{usuario.telefones}">
 
-			<f:facet name="header">Relação de livros favoritos</f:facet>
-			<p:column>
-				<p:inputText value="#{telefone.id}" id="telefoneId" type="hidden" />
-				<f:facet style="20%" name="header">DDD</f:facet>
-				<h:outputText value="#{telefone.ddd}" />
-			</p:column>
+	<h:form>
+		<p:messages autoUpdate="true" showDetail="true"></p:messages>
+		<p:fieldset legend="Usuários">
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton value="Novo"
+						action="#{telaMenuView.novoUsuario()}" update="@form"></p:commandButton>
+					<p:commandButton value="Editar"
+						action="#{telaMenuView.mudarParaEditar()}"
+						disabled="#{telaMenuView.editar==false}" update="@form"></p:commandButton>
+					<p:commandButton value="Buscar"
+						action="#{telaMenuView.mudarParaBuscar()}" update="@form"></p:commandButton>
+				</p:toolbarGroup>
+			</p:toolbar>
 
-			<p:column>
-				<f:facet style="40%" name="header">Número</f:facet>
-				<h:outputText value="#{telefone.numero}" />
-			</p:column>
 
-			<p:column>
-				<f:facet style="40%" name="header">Tipo</f:facet>
-				<h:outputText value="#{telefone.tipo.descricao}" />
-			</p:column>
 
-		</p:dataTable>
-	</h:form>
+			<p:panel rendered="#{telaMenuView.inserir}">
+				<p:panelGrid columns="2">
+				
+				<h:outputLabel value="Nome"></h:outputLabel>
+				<p:inputText placeholder="Nome"
+					value="#{telaMenuView.novoUsuario.nome}" />
 
-<br></br>
+				<h:outputLabel value="Email"></h:outputLabel>
+				<p:inputText placeholder="email@email.com"
+					value="#{telaMenuView.novoUsuario.email}" />
 
-	
-	<h:panelGroup rendered="#{empty usuarioList}">
-		<em>No registered members.</em>
-	</h:panelGroup>
-	<p:dataTable var="_usuario" value="#{usuarioList}"
-		rendered="#{not empty usuarioList}" styleClass="simpletablestyle" widgetVar="lst">
-		<f:facet name="header">Relação de Usuários</f:facet>
-		<p:column>
-			<f:facet name="header">Id</f:facet>
-                #{_usuario.id}
-            </p:column>
-		<p:column>
-			<f:facet name="header">Nome</f:facet>
+				<h:outputLabel value="Senha"></h:outputLabel>
+				<p:inputText value="#{telaMenuView.novoUsuario.senha}" />
+				</p:panelGrid>
+				
+				<p:panelGrid columns="3">
+					<h:outputLabel value="DDD">	</h:outputLabel>
+					<h:outputLabel value="Numero">	</h:outputLabel>
+					<h:outputLabel value="Tipo"> </h:outputLabel>
+
+					<p:inputText placeholder="999"></p:inputText>
+					<p:inputText placeholder="99999-9999"></p:inputText>
+					<p:selectOneRadio id="tipoInserir" unselectable="true">
+						<f:selectItem itemLabel="CELULAR" itemValue="CELULAR" />
+						<f:selectItem itemLabel="RESIDENCIAL" itemValue="RESIDENCIAL" />
+						<f:selectItem itemLabel="COMERCIAL" itemValue="COMERCIAL" />
+						<f:selectItem itemLabel="OUTROS" itemValue="OUTROS" />
+					</p:selectOneRadio>
+
+				</p:panelGrid>
+			
+
+				<h:commandButton value="Cadastrar" />
+			</p:panel>
+
+
+
+			<p:dataTable var="_usuario" value="#{usuarioList}"
+				rendered="#{telaMenuView.buscar}" styleClass="simpletablestyle"
+				widgetVar="lst">
+				<f:facet name="header">Relação de Usuários</f:facet>
+				<p:column>
+					<p:commandButton value="Editar"
+						action="#{telaMenuView.editar(_usuario)}" update="@form"></p:commandButton>
+					<p:commandButton value="Deletar"
+						action="#{telaMenuView.excluirUsuario(_usuario)}" update="@form"></p:commandButton>
+				</p:column>
+				<p:column>
+					<f:facet name="header">Id</f:facet>
+                	#{_usuario.id}
+            	</p:column>
+				<p:column>
+					<f:facet name="header">Nome</f:facet>
                 #{_usuario.nome}
             </p:column>
-		<p:column>
-			<f:facet name="header">Email</f:facet>
+				<p:column>
+					<f:facet name="header">Email</f:facet>
                 #{_usuario.email}
             </p:column>
-		
-	</p:dataTable>
+
+			</p:dataTable>
+
+
+
+			<p:panel rendered="#{telaMenuView.editar}">
+				<p:panelGrid columns="2">
+					<h:outputLabel value="Nome"></h:outputLabel>
+					<p:inputText placeholder="Nome"
+						value="#{telaMenuView.novoUsuario.nome}" />
+
+					<h:outputLabel value="Email"></h:outputLabel>
+					<p:inputText placeholder="email@email.com"
+						value="#{telaMenuView.novoUsuario.email}" />
+
+					<h:outputLabel value="Senha"></h:outputLabel>
+					<p:inputText value="#{telaMenuView.novoUsuario.senha}" />
+					<p:button value="Salvar"></p:button>
+				</p:panelGrid>
+				<p:panelGrid columns="3">
+					<h:outputLabel value="DDD">	</h:outputLabel>
+					<h:outputLabel value="Numero">	</h:outputLabel>
+					<h:outputLabel value="Tipo"> </h:outputLabel>
+
+					<p:inputText placeholder="999"></p:inputText>
+					<p:inputText placeholder="99999-9999"></p:inputText>
+					<p:selectOneRadio id="tipoEditar" unselectable="true">
+						<f:selectItem itemLabel="CELULAR" itemValue="CELULAR" />
+						<f:selectItem itemLabel="RESIDENCIAL" itemValue="RESIDENCIAL" />
+						<f:selectItem itemLabel="COMERCIAL" itemValue="COMERCIAL" />
+						<f:selectItem itemLabel="OUTROS" itemValue="OUTROS" />
+					</p:selectOneRadio>
+
+				</p:panelGrid>
+				<p:dataTable var="telefone"
+					value="#{telaMenuView.novoUsuario.telefones}">
+					<f:facet name="header">Relação de Telefones</f:facet>
+					<p:column>
+						<p:commandButton value="Deletar"></p:commandButton>
+					</p:column>
+					<p:column>
+						<f:facet name="header">DDD</f:facet>
+                		#{telefone.ddd}
+            		</p:column>
+					<p:column>
+						<f:facet name="header">Numero</f:facet>
+                		#{telefone.numero}
+           			</p:column>
+					<p:column>
+						<f:facet name="header">Tipo</f:facet>
+                		#{telefone.tipo}
+            		</p:column>
+				</p:dataTable>
+
+
+
+
+			</p:panel>
+
+
+		</p:fieldset>
+	</h:form>
+
 
 
 
