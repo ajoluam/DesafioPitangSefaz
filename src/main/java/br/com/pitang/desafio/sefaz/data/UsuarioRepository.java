@@ -8,12 +8,12 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import br.com.pitang.desafio.sefaz.exceptions.NaoEncontradoException;
 import br.com.pitang.desafio.sefaz.exceptions.NaoExcluidoException;
+import br.com.pitang.desafio.sefaz.model.Telefone;
 import br.com.pitang.desafio.sefaz.model.Usuario;
 
 @ApplicationScoped
@@ -71,5 +71,17 @@ public class UsuarioRepository {
 		}
 
 	}
-
-}
+	
+	public boolean excluiTelefone(Telefone telefone) {
+		try {
+			em.createNativeQuery("DELETE FROM telefone WHERE id=?").setParameter(1, telefone.getId())
+			.executeUpdate();
+			em.flush();
+			return true;
+		}catch (Exception e) {
+			log.info(e.getMessage());
+			throw new NaoExcluidoException(e.getMessage());
+		}
+	}
+	
+	}

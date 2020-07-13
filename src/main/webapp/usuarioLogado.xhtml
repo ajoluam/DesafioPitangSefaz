@@ -53,31 +53,34 @@
 						action="#{telaMenuView.mudarParaEditar()}"
 						disabled="#{telaMenuView.editar==false}" update="@form"></p:commandButton>
 					<p:commandButton value="Buscar"
-						action="#{telaMenuView.mudarParaBuscar()}" update="@form"></p:commandButton>
+						action="#{telaMenuView.buscarUsuarios()}" update="@form"></p:commandButton>
 				</p:toolbarGroup>
 			</p:toolbar>
 
 
-
+<!-- Menu Inserir -->
 			<p:panel rendered="#{telaMenuView.inserir}">
 				<p:panelGrid columns="2">
-				
-				<h:outputLabel value="Nome"></h:outputLabel>
-				<p:inputText placeholder="Nome"
-					value="#{telaMenuView.novoUsuario.nome}" />
 
-				<h:outputLabel value="Email"></h:outputLabel>
-				<p:inputText placeholder="email@email.com"
-					value="#{telaMenuView.novoUsuario.email}" />
+					<h:outputLabel value="Nome"></h:outputLabel>
+					<p:inputText placeholder="Nome"
+						value="#{telaMenuView.novoUsuario.nome}" />
 
-				<h:outputLabel value="Senha"></h:outputLabel>
-				<p:inputText value="#{telaMenuView.novoUsuario.senha}" />
+					<h:outputLabel value="Email"></h:outputLabel>
+					<p:inputText placeholder="email@email.com"
+						value="#{telaMenuView.novoUsuario.email}" />
+
+					<h:outputLabel value="Senha"></h:outputLabel>
+					<p:inputText value="#{telaMenuView.novoUsuario.senha}" />
 				</p:panelGrid>
-				
+
 				<p:panelGrid columns="3">
-					<h:outputLabel value="DDD">	</h:outputLabel>
-					<h:outputLabel value="Numero">	</h:outputLabel>
-					<h:outputLabel value="Tipo"> </h:outputLabel>
+					<h:outputLabel value="DDD">
+					</h:outputLabel>
+					<h:outputLabel value="Numero">
+					</h:outputLabel>
+					<h:outputLabel value="Tipo">
+					</h:outputLabel>
 
 					<p:inputText placeholder="999"></p:inputText>
 					<p:inputText placeholder="99999-9999"></p:inputText>
@@ -89,23 +92,36 @@
 					</p:selectOneRadio>
 
 				</p:panelGrid>
-			
+
 
 				<h:commandButton value="Cadastrar" />
 			</p:panel>
 
 
+<!-- Fim Menu Inserir -->
 
-			<p:dataTable var="_usuario" value="#{usuarioList}"
-				rendered="#{telaMenuView.buscar}" styleClass="simpletablestyle"
-				widgetVar="lst">
+<!-- Menu Buscar -->
+			<p:dataTable var="_usuario" value="#{telaMenuView.listaUsuarios}"
+				rendered="#{telaMenuView.buscar}">
 				<f:facet name="header">Relação de Usuários</f:facet>
 				<p:column>
 					<p:commandButton value="Editar"
 						action="#{telaMenuView.editar(_usuario)}" update="@form"></p:commandButton>
 					<p:commandButton value="Deletar"
-						action="#{telaMenuView.excluirUsuario(_usuario)}" update="@form"></p:commandButton>
+						action="#{telaMenuView.excluirUsuario(_usuario)}" update="@form">
+						<p:confirm header="Confirmação" message="Deseja Excluir Usuario?"
+							icon="pi pi-exclamation-triangle" />
+					</p:commandButton>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+						width="40%">
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+					</p:confirmDialog>
+
 				</p:column>
+
 				<p:column>
 					<f:facet name="header">Id</f:facet>
                 	#{_usuario.id}
@@ -120,6 +136,9 @@
             </p:column>
 
 			</p:dataTable>
+<!-- Fim Menu Buscar -->
+
+<!-- Menu Editar -->
 
 
 
@@ -138,9 +157,12 @@
 					<p:button value="Salvar"></p:button>
 				</p:panelGrid>
 				<p:panelGrid columns="3">
-					<h:outputLabel value="DDD">	</h:outputLabel>
-					<h:outputLabel value="Numero">	</h:outputLabel>
-					<h:outputLabel value="Tipo"> </h:outputLabel>
+					<h:outputLabel value="DDD">
+					</h:outputLabel>
+					<h:outputLabel value="Numero">
+					</h:outputLabel>
+					<h:outputLabel value="Tipo">
+					</h:outputLabel>
 
 					<p:inputText placeholder="999"></p:inputText>
 					<p:inputText placeholder="99999-9999"></p:inputText>
@@ -156,27 +178,39 @@
 					value="#{telaMenuView.novoUsuario.telefones}">
 					<f:facet name="header">Relação de Telefones</f:facet>
 					<p:column>
-						<p:commandButton value="Deletar"></p:commandButton>
+						<p:commandButton value="Deletar" action="#{telaMenuView.excluirTelefone(telefone)}" update="@form">
+							<p:confirm header="Confirmação"
+								message="Deseja Excluir Telefone?"
+								icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+							width="40%">
+							<p:commandButton value="Sim" type="button"
+								styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+							<p:commandButton value="Não" type="button"
+								styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+						</p:confirmDialog>
+
 					</p:column>
 					<p:column>
 						<f:facet name="header">DDD</f:facet>
-                		#{telefone.ddd}
-            		</p:column>
+						<p:inputText value="#{telefone.ddd}"></p:inputText>
+
+					</p:column>
 					<p:column>
 						<f:facet name="header">Numero</f:facet>
-                		#{telefone.numero}
-           			</p:column>
+						<p:inputText value="#{telefone.numero}"></p:inputText>
+
+					</p:column>
 					<p:column>
 						<f:facet name="header">Tipo</f:facet>
-                		#{telefone.tipo}
-            		</p:column>
+						<p:inputText value="#{telefone.tipo}"></p:inputText>
+
+					</p:column>
 				</p:dataTable>
 
-
-
-
 			</p:panel>
-
+<!-- Fim Menu Editar -->
 
 		</p:fieldset>
 	</h:form>

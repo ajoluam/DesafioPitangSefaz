@@ -16,12 +16,14 @@
  */
 package br.com.pitang.desafio.sefaz.service;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import br.com.pitang.desafio.sefaz.data.UsuarioRepository;
+import br.com.pitang.desafio.sefaz.model.Telefone;
 import br.com.pitang.desafio.sefaz.model.Usuario;
 
 // The @Stateless annotation eliminates the need for manual transaction demarcation
@@ -41,4 +43,19 @@ public class UsuarioLogadoService {
 
 			
 	}
+	public boolean excluiTelefone(Telefone telefone) throws Exception {
+		log.info("Excluindo telefone id: " + telefone.getId());
+		
+		return usuarioRepository.excluiTelefone(telefone);
+		
+		
+	}
+	
+	
+	public List<Usuario> listarUsuarios(){
+		log.info("Listando todos os usuários.");
+		return usuarioRepository.findAllOrderedByName();
+	}
+	
+
 }

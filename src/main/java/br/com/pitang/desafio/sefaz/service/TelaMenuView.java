@@ -1,15 +1,22 @@
 package br.com.pitang.desafio.sefaz.service;
 
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import br.com.pitang.desafio.sefaz.model.Telefone;
 import br.com.pitang.desafio.sefaz.model.Usuario;
+import lombok.Getter;
+import lombok.Setter;
 
 @ManagedBean
 @SessionScoped
+@Getter
+@Setter
 public class TelaMenuView {
 
 	@Inject
@@ -21,6 +28,10 @@ public class TelaMenuView {
 	private String estadoTela;// Inserir, Editar, Buscar
 	
 	private Usuario novoUsuario;
+	
+	private Telefone novoTelefone;
+	
+	private List<Usuario> listaUsuarios;
 	
 
 	// Metodos para controle da tela
@@ -62,6 +73,7 @@ public class TelaMenuView {
 	
 	public void excluirUsuario(Usuario usuario) {
 		FacesMessage message;
+		listaUsuarios.remove(usuario);
 		try {
 			usuarioLogadoService.excluir(usuario);
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!!", "Usuario excluído com sucesso.");
@@ -74,12 +86,28 @@ public class TelaMenuView {
 		mudarParaBuscar();
 	}
 
-	public Usuario getNovoUsuario() {
-		return novoUsuario;
-	}
+	public void excluirTelefone(Telefone telefone) {
+		novoUsuario.getTelefones().remove(telefone);
+		FacesMessage message;
+		try {
+			usuarioLogadoService.excluiTelefone(telefone);
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!!", "Telefone excluído com sucesso.");
+		} catch (Exception e) {
+			
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERRO", "Erro na exclusão do telefone");
+		}
 
-	public void setNovoUsuario(Usuario novoUsuario) {
-		this.novoUsuario = novoUsuario;
+		facesContext.addMessage(null, message);
+		mudarParaEditar();
+
+		
 	}
+	
+	public void buscarUsuarios() {
+		listaUsuarios = usuarioLogadoService.listarUsuarios();
+		mudarParaBuscar();
+	}
+	
+
 
 }
